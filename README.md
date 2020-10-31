@@ -4,7 +4,7 @@ Unofficial Python wrapper for Pipeline Deals API
 
 1. Repassar documentação e classes para organizar tarefas
  - documentação: https://app.pipelinedeals.com/api/docs
- - classes para construir
+ - classes para construir:
   - activities
   - companies
   - customers
