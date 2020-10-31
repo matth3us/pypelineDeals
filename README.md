@@ -20,6 +20,7 @@ Unofficial Python wrapper for Pipeline Deals API
 3. Usar gist para inspiração:
  - https://gist.github.com/rickcnagy/9820052
 4. Criar notebook functions/pipelinedeals_functions para usar dentro do Databricks
+5. Gerar testes: https://realpython.com/python-testing/
 
 
 
