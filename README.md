@@ -13,6 +13,7 @@ Unofficial Python wrapper for Pipeline Deals API
   5. deals
   6. people
   7. users
+ - usar pyspark para já converter resultados das classes em Spark Data Frames
 2. Preparar autenticação e funções para autenticação
  - construir uma classe para autenticação? Um função para autenticar? Usar algo parecido com a autenticação do pygsheets
  - No caso do Databricks, descobrir com os data-engineers como guardá-los
