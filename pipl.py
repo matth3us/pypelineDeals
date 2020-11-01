@@ -2,9 +2,9 @@
 #preparar documentação!
 
 #https://semaphoreci.com/community/tutorials/building-and-testing-an-api-wrapper-in-python
-#organizar pastas
+#organizar pastas, testes e tarefas
 
-class pipelineDealsAuthenticator:
+class pipelineDeals:
     api_key = ""
     api_application_key = ""
 
@@ -15,6 +15,3 @@ class pipelineDealsAuthenticator:
         self.api_key = api_key
     def addApplicationKey(self, api_application_key):
         self.api_application_key = api_application_key
-
-class pipelineDeals(pipelineDealsAuthenticator):
-    pass
