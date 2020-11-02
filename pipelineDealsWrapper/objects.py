@@ -1,52 +1,57 @@
-#import init
+# por nos testes: apenas parâmetros permitidos para cada; tipos permitidos de parâmetros; parâmetros obrigatórios tem que ser passados;
+from authenticator import pipelineDeals
 
-class activities(pipelineDeals): 
+class pipelineDealsObject(pipelineDeals):
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = ""
+        self.id = NULL
+        self.url = "https://api.pipelinedeals.com/api/v3/"
+    
+    #def create(self, params):
+        #POST
+    #def retrive(self, id):
+        #GET
+    #def update(self, id, params):
+        #PUT
+    #def delete(self, id):
+        #DELETE
 
-class companies(pipelineDeals): 
+class activities(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "notes"
 
-class customFieldCompanyGroups(pipelineDeals): 
+class companies(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "companies"
 
-class customFieldDealsGroups(pipelineDeals): 
+class customFieldCompanyGroups(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "admin/company_custom_field_groups"
+
+class customFieldDealsGroups(pipelineDealsObject): 
+    def __init__(self): 
+        self.path = "admin/deal_custom_field_groups"
         
-class customFieldCompanyLabels(pipelineDeals): 
+class customFieldCompanyLabels(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "admin/company_custom_field_labels"
 
-class customFieldDealsLabels(pipelineDeals): 
+class customFieldDealsLabels(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "admin/deal_custom_field_labels"
 
-class customFieldLabelDropdownEntries(pipelineDeals): 
+class customFieldLabelDropdownEntries(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "admin/custom_field_label_dropdown_entries"
 
-class deals(pipelineDeals): 
+class deals(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "deals"
 
-class people(pipelineDeals): 
+class people(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
+        self.path = "people"
 
-class users(pipelineDeals): 
+class users(pipelineDealsObject): 
     def __init__(self):
-        self.id = 0
-    # métodos: create, retrieve, update, delete
-
+        self.path = "admin/users"

@@ -1,9 +1,12 @@
-# import init
-# import objects 
+from authenticator import pipelineDeals
+from objects import pipelineDealsObject
+from objects import activities
+#terminar importações
 
 class pipelineDealsLists(pipelineDeals):
     # Essa classe deve gerar listas de python em que cada elemento é um objeto do PipelineDeals
     # isso permitira aplicar diretamente os métodos os objetos individuais nas listas, usando for
+    # gerar funções genéricas para aplicar em cada um dos métodos individuais
 
     # @staticmethod
     # def listActivities(parameter_list):
