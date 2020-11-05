@@ -2,35 +2,35 @@
 import requests as rq
 from authenticator import pipelineDeals
 
-def returnJsonResponseIfAvailable(request):
-    if(request.raise_for_status()):
-        response = {"response": None, "status": request.status_code}
-        return(response)
-    else:
-        response = {"response": request.json(), "status": request.status_code}
-        return(response)
+def removeNonesDictionary(dictio):
+    filtered = dict(filter(lambda item: item[1] is not None, dictio.items()))
+    return filtered
 
 class pipelineDealsObject(pipelineDeals):
     def __init__(self):
-        self.path = ""
-        self.id = None
         self.url = "https://api.pipelinedeals.com/api/v3/"
+        self.path = ""
+        self.params = None
     
+    def addParam(self, param, newValue):
+        self.params[param] = newValue
+
     def hasId(self):
-        return self.id is not None
+        return self.params['id'] is not None
 
-    def create(self, params):
-        if(self.hasId() & self.hasKey()):
-            params.api_key = self.api_key
-            request = rq.post(self.path, data = params)
-            response = returnJsonResponseIfAvailable(request)
-            return response
+    # def create(self, params):
+    #     if(self.hasId() & self.hasKey()):
+    #         params.api_key = self.api_key
+    #         request = rq.post(self.path, data = params)
+    #         response = request.json()
+    #         return response
 
-    def retrive(self, id):
+    def retrive(self):
         if(self.hasId() & self.hasKey()):
-            params.api_key = self.api_key
-            request = rq.get(self.path, data = params)
-            response = returnJsonResponseIfAvailable(request)
+            self.addParam("api_key", self.api_key)
+            passParams = removeNonesDictionary(self.params)
+            request = rq.get(self.url + self.path, data = passParams)
+            response = request.json()
             return response
         
     #def update(self, id, params):
@@ -44,7 +44,9 @@ class activities(pipelineDealsObject):
 
 class companies(pipelineDealsObject): 
     def __init__(self):
+        super().__init__()
         self.path = "companies"
+        self.params = {"api_key": None, "id": None}
 
 class customFieldCompanyGroups(pipelineDealsObject): 
     def __init__(self):
