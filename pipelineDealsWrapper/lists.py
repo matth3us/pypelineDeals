@@ -1,7 +1,5 @@
 from authenticator import pipelineDeals
-from objects import pipelineDealsObject
-from objects import activities
-#terminar importações
+import objects as ob
 
 class pipelineDealsLists(pipelineDeals):
     # Essa classe deve gerar listas de python em que cada elemento é um objeto do PipelineDeals
