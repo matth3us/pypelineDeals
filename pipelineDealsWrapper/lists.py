@@ -1,77 +1,95 @@
-from authenticator import pipelineDeals
+import requests as rq
+import json as js
+import pipelineDeals as pd
 import objects as ob
 
-class pipelineDealsLists(pipelineDeals):
-    # Essa classe deve gerar listas de python em que cada elemento é um objeto do PipelineDeals
-    # isso permitira aplicar diretamente os métodos os objetos individuais nas listas, usando for
-    # gerar funções genéricas para aplicar em cada um dos métodos individuais
-
-    # @staticmethod
-    # def listActivities(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listCompanies(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listCustomFieldCompanyGroups(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listCustomFieldDealsGroups(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
+class pipelineDealsList(pd.pipelineDeals):
+    def __init__(self):
+        super().__init__()
+        self.path = None
+        self.url = "https://api.pipelinedeals.com/api/v3/"
+        self.objectType = None
+        self.listOfObjects = []
     
-    # @staticmethod
-    # def listCustomFieldDealsCompanies(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
+    def setTypeListActivities(self):
+        self.path = "notes"
+        self.objectType = "activities"
+
+    def setTypeListCompanies(self):
+        self.path = "companies"
+        self.objectType = "companies"
+
+    def setTypeListCustomFieldCompanyGroups(self): 
+        self.path = "admin/company_custom_field_groups"
+        self.objectType = "customfieldcompanygroups"
+
+    def setTypeListCustomFieldCompanyLabels(self): 
+        self.path = "admin/company_custom_field_labels"
+        self.objectType = "customfieldcompanylabels"
+
+    def setTypeListCustomFieldDealsGroups(self): 
+        self.path = "admin/deal_custom_field_groups"
+        self.objectType = "customfielddealsgroups"
+
+    def setTypeListCustomFieldDealsLabels(self): 
+        self.path = "admin/deal_custom_field_labels"
+        self.objectType = "customfielddealslabels"
+
+    def setTypeListCustomFieldLabelDropdownEntries(self): 
+        self.path = "admin/custom_field_label_dropdown_entries"
+        self.objectType = "customfieldlabeldropdownentries"
+
+    def setTypeListDeals(self): 
+        self.path = "deals"
+        self.objectType = "deals"
+
+    def setTypeListPeople(self): 
+        self.path = "people"
+        self.objectType = "people"
+
+    def setTypeListUsers(self):
+        self.path = "admin/users"
+        self.objectType = "users"
+
+    def hasObjectType(self):
+        return self.objectType is not None
+
+    def createObject(self, api_response_entry):
+        pipelineObject = ob.pipelineDealsObject()
+        keyToObject = self.api_key
+        pipelineObject.addKey(keyToObject)
+        if(self.objectType == "activities"):
+            pipelineObject.setTypeActivities()
+        if(self.objectType == "companies"): 
+            pipelineObject.setTypeCompanies()
+        if(self.objectType == "customfieldcompanygroups"): 
+            pipelineObject.setTypeCustomFieldCompanyGroups()
+        if(self.objectType == "customfieldcompanylabels"): 
+            pipelineObject.setTypeCustomFieldCompanyLabels()
+        if(self.objectType == "customfielddealsgroups"): 
+            pipelineObject.setTypeCustomFieldDealsGroups()
+        if(self.objectType == "customfielddealslabels"): 
+            pipelineObject.setTypeCustomFieldDealsLabels()
+        if(self.objectType == "customfieldlabeldropdownentries"): 
+            pipelineObject.setTypeCustomFieldLabelDropdownEntries()
+        if(self.objectType == "deals"): 
+            pipelineObject.setTypeDeals()
+        if(self.objectType == "people"): 
+            pipelineObject.setTypePeople()
+        if(self.objectType == "users"): 
+            pipelineObject.setTypeUsers()
+        pipelineObject.addOrUpdateParams(api_response_entry)
+        return pipelineObject
     
-    # @staticmethod
-    # def listCustomFieldDealsLabels(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
+    def retrieveList(self):
+        if(self.hasObjectType() & self.hasKey()):
+            passParams = {"api_key": self.api_key}    
+            request = rq.get(self.url + self.path, data = passParams)
+            response = request.json()['entries']
+            for entry in response:
+                self.listOfObjects.append(self.createObject(entry))
 
-    # @staticmethod
-    # def listCustomFieldLabelDropdownEntries(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listDeals(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listPeople(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
-
-    # @staticmethod
-    # def listUsers(parameter_list):
-    #     """
-    #     docstring
-    #     """
-    #     pass
+        if not (self.hasObjectType()):
+            print("No object type defined.")
+        if not (self.hasKey()):
+            print("No API Key provided.")
