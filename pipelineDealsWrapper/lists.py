@@ -10,6 +10,7 @@ class pipelineDealsList(pd.pipelineDeals):
         self.url = "https://api.pipelinedeals.com/api/v3/"
         self.objectType = None
         self.listOfObjects = []
+        self.totalPages = 1
     
     def setTypeListActivities(self):
         self.path = "notes"
@@ -83,12 +84,20 @@ class pipelineDealsList(pd.pipelineDeals):
     
     def retrieveList(self):
         if(self.hasObjectType() & self.hasKey()):
-            passParams = {"api_key": self.api_key}    
+            passParams = {"api_key": self.api_key, "page": 1}    
             request = rq.get(self.url + self.path, data = passParams)
-            response = request.json()['entries']
-            for entry in response:
+            response = request.json()
+            totalPages = response['pagination'].pages
+            for entry in response['entries']:
                 self.listOfObjects.append(self.createObject(entry))
-
+            #Continuação se houver mais páginas
+            while(totalPages <=  self.totalPages):
+                passParams.page = passParams.page + 1
+                request = rq.get(self.url + self.path, data = passParams)
+                response = request.json()
+                for entry in response['entries']:
+                    self.listOfObjects.append(self.createObject(entry))
+                self.totalPages = self.totalPages + 1
         if not (self.hasObjectType()):
             print("No object type defined.")
         if not (self.hasKey()):
