@@ -1,5 +1,3 @@
-### PARALELIZAR FUNÇÃO RETRIEVE LIST
-
 import requests as rq
 import json as js
 import pipelineDeals as pd
