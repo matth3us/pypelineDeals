@@ -91,6 +91,7 @@ class pipelineDealsList(pd.pipelineDeals):
             for entry in response['entries']:
                 self.listOfObjects.append(self.createObject(entry))
             #Continuação se houver mais páginas
+            #Esse código cheira a Java Script! Simplificar usando un range no futuro
             while(totalPages <=  self.totalPages):
                 passParams.page = passParams.page + 1
                 request = rq.get(self.url + self.path, data = passParams)
