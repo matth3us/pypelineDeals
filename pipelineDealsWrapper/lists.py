@@ -36,6 +36,14 @@ class pipelineDealsList(pd.pipelineDeals):
         self.path = "admin/deal_custom_field_labels"
         self.objectType = "customfielddealslabels"
 
+    def setTypeListCustomFieldPeopleGroups(self): 
+        self.path = "admin/person_custom_field_groups"
+        self.objectType = "customfieldpeoplegroups"
+
+    def setTypeListCustomFieldPeopleLabels(self): 
+        self.path = "admin/person_custom_field_labels"
+        self.objectType = "customfieldpeoplelabels"
+
     def setTypeListCustomFieldLabelDropdownEntries(self): 
         self.path = "admin/custom_field_label_dropdown_entries"
         self.objectType = "customfieldlabeldropdownentries"
@@ -71,6 +79,10 @@ class pipelineDealsList(pd.pipelineDeals):
             pipelineObject.setTypeCustomFieldDealsGroups()
         if(self.objectType == "customfielddealslabels"): 
             pipelineObject.setTypeCustomFieldDealsLabels()
+        if(self.objectType == "customfieldpeoplegroups"): 
+            pipelineObject.setTypeCustomFieldPeopleGroups()
+        if(self.objectType == "customfieldpeoplelabels"): 
+            pipelineObject.setTypeCustomFieldPeopleLabels()
         if(self.objectType == "customfieldlabeldropdownentries"): 
             pipelineObject.setTypeCustomFieldLabelDropdownEntries()
         if(self.objectType == "deals"): 
