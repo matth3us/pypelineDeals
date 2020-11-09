@@ -92,7 +92,7 @@ class pipelineDealsList(pd.pipelineDeals):
             for entry in firstPage:
                 self.listOfObjects.append(self.createObject(entry))
             if totalPages == 1: return
-            for p in range(2, totalPages):
+            for p in range(2, totalPages+1):
                 passParams['page'] = p
                 request = rq.get(self.url + self.path, data = passParams)
                 response = request.json()['entries']
