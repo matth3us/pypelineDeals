@@ -40,7 +40,15 @@ class pipelineDealsObject(pd.pipelineDeals):
     def setTypeCustomFieldDealsLabels(self): 
         self.path = "admin/deal_custom_field_labels"
         self.params = {"api_key": self.api_key, "id": None}
-        
+    
+    def setTypeCustomFieldDealsGroups(self): 
+        self.path = "admin/person_custom_field_labels"
+        self.params = {"api_key": self.api_key, "id": None}
+    
+    def setTypeCustomFieldDealsPeople(self): 
+        self.path = "admin/person_custom_field_labels"
+        self.params = {"api_key": self.api_key, "id": None}
+
     def setTypeCustomFieldLabelDropdownEntries(self): 
         self.path = "admin/custom_field_label_dropdown_entries"
         self.params = {"api_key": self.api_key, "id": None}
