@@ -87,18 +87,17 @@ class pipelineDealsList(pd.pipelineDeals):
             passParams = {"api_key": self.api_key, "page": 1}    
             request = rq.get(self.url + self.path, data = passParams)
             response = request.json()
-            totalPages = response['pagination'].pages
-            for entry in response['entries']:
+            totalPages = response['pagination']['pages']
+            firstPage = response['entries']
+            for entry in firstPage:
                 self.listOfObjects.append(self.createObject(entry))
-            #Continuação se houver mais páginas
-            #Esse código cheira a Java Script! Simplificar usando un range no futuro
-            while(totalPages <=  self.totalPages):
-                passParams.page = passParams.page + 1
+            if totalPages == 1: return
+            for p in range(2, totalPages):
+                passParams['page'] = p
                 request = rq.get(self.url + self.path, data = passParams)
-                response = request.json()
-                for entry in response['entries']:
+                response = request.json()['entries']
+                for entry in response:
                     self.listOfObjects.append(self.createObject(entry))
-                self.totalPages = self.totalPages + 1
         if not (self.hasObjectType()):
             print("No object type defined.")
         if not (self.hasKey()):
