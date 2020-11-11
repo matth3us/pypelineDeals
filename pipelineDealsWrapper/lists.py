@@ -2,6 +2,9 @@ import requests as rq
 import json as js
 import pipelineDeals as pd
 import objects as ob
+from pyspark.sql import Row
+from pyspark.sql.types import *
+from pyspark.sql.functions import expr, col, lit, array
 
 class pipelineDealsList(pd.pipelineDeals):
     def __init__(self):
@@ -110,6 +113,31 @@ class pipelineDealsList(pd.pipelineDeals):
                 response = request.json()['entries']
                 for entry in response:
                     self.listOfObjects.append(self.createObject(entry))
+        if not (self.hasObjectType()):
+            print("No object type defined.")
+        if not (self.hasKey()):
+            print("No API Key provided.")
+
+    def retrieveSparkList(self):
+        def retrieveSparkPageDataFrame(page, api_key, url, path):
+            #Incluir exceções para caso de erro na API
+            fullPath = url + path
+            response = rq.get(fullPath, data = {'api_key':api_key, 'page': page}).json()['entries']
+            return(response)
+
+        retrieveSparkPageDataFrameUdf = udf(retrieveSparkPageDataFrame, ArrayType(StringType()))
+
+        if(self.hasKey()):
+            passParams = {"api_key": self.api_key, "page": 1}
+            request = rq.get(self.url + self.path, data = passParams)
+            response = request.json()
+            self.totalPages = string(response['pagination'].pages)
+
+            # Criar DF spark com as entries
+            self.listOfObjects = spark.sql('select explode(sequence(1,' + self.totalPages + ')) as page')\
+                .withColumn('page', expr('string(page)'))\
+                .withColumn('pageEntries', retrieveSparkPageDataFrameUdf(col('page'), lit(passParams['api_key']), lit(self.url), lit(self.path)))
+
         if not (self.hasObjectType()):
             print("No object type defined.")
         if not (self.hasKey()):
