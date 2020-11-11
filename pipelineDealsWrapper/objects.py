@@ -1,12 +1,12 @@
 # por nos testes: apenas parâmetros permitidos para cada; tipos permitidos de parâmetros; parâmetros obrigatórios tem que ser passados;
 import requests as rq
-import pipelineDeals as pd
+from pipelineDeals import pipelineDeals
 
 def removeNonesDictionary(dictio):
     filtered = dict(filter(lambda item: item[1] is not None, dictio.items()))
     return filtered
 
-class pipelineDealsObject(pd.pipelineDeals):
+class pipelineDealsObject(pipelineDeals):
     def __init__(self):
         super().__init__()
         self.url = "https://api.pipelinedeals.com/api/v3/"

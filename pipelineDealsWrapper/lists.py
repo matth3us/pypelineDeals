@@ -1,12 +1,12 @@
 import requests as rq
 import json as js
-import pipelineDeals as pd
-import objects as ob
+from pipelineDeals import pipelineDeals
+from objects import pipelineDealsObject
 from pyspark.sql import Row
 from pyspark.sql.types import *
 from pyspark.sql.functions import expr, col, lit, array
 
-class pipelineDealsList(pd.pipelineDeals):
+class pipelineDealsList(pipelineDeals):
     def __init__(self):
         super().__init__()
         self.path = None
@@ -67,7 +67,7 @@ class pipelineDealsList(pd.pipelineDeals):
         return self.objectType is not None
 
     def createObject(self, api_response_entry):
-        pipelineObject = ob.pipelineDealsObject()
+        pipelineObject = pipelineDealsObject()
         keyToObject = self.api_key
         pipelineObject.addKey(keyToObject)
         if(self.objectType == "activities"):
