@@ -131,7 +131,7 @@ class pipelineDealsList(pipelineDeals):
             passParams = {"api_key": self.api_key, "page": 1}
             request = rq.get(self.url + self.path, data = passParams)
             response = request.json()
-            self.totalPages = string(response['pagination'].pages)
+            self.totalPages = str(response['pagination']['pages'])
 
             # Criar DF spark com as entries
             self.listOfObjects = spark.sql('select explode(sequence(1,' + self.totalPages + ')) as page')\
