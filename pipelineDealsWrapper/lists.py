@@ -123,7 +123,11 @@ class pipelineDealsList(pipelineDeals):
             #Incluir exceções para caso de erro na API
             fullPath = url + path
             response = rq.get(fullPath, data = {'api_key':api_key, 'page': page}).json()['entries']
-            return(response)
+            pageEntries = []
+            for entry in response:
+                toDF = js.dumps(entry)
+                pageEntries.append(toDF)
+            return(pageEntries)
 
         retrieveSparkPageDataFrameUdf = udf(retrieveSparkPageDataFrame, ArrayType(StringType()))
 
@@ -136,9 +140,14 @@ class pipelineDealsList(pipelineDeals):
             # Criar DF spark com as entries
             self.listOfObjects = spark.sql('select explode(sequence(1,' + self.totalPages + ')) as page')\
                 .withColumn('page', expr('string(page)'))\
-                .withColumn('pageEntries', retrieveSparkPageDataFrameUdf(col('page'), lit(passParams['api_key']), lit(self.url), lit(self.path)))
+                .withColumn('pageEntries', retrieveSparkPageDataFrameUdf(col('page'), lit(passParams['api_key']), lit(self.url), lit(self.path)))\
+                .select('page', explode('pageEntries'))\
+                .withColumnRenamed('col', 'entries')
 
         if not (self.hasObjectType()):
             print("No object type defined.")
         if not (self.hasKey()):
             print("No API Key provided.")
+
+
+  
