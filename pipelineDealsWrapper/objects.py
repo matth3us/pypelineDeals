@@ -57,7 +57,7 @@ class pipelineDealsObject(pipelineDeals):
         self.path = "deals"
         self.params = {"api_key": self.api_key, "id": None}
 
-    def setTypepeople(self):
+    def setTypePeople(self):
         self.path = "people"
         self.params = {"api_key": self.api_key, "id": None}
 
