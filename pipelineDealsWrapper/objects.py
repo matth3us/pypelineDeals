@@ -10,6 +10,7 @@ class pipelineDealsObject(pipelineDeals):
     def __init__(self):
         super().__init__()
         self.url = "https://api.pipelinedeals.com/api/v3/"
+        self.id = None
         self.path = None
         self.params = None
 
@@ -69,20 +70,24 @@ class pipelineDealsObject(pipelineDeals):
         self.params.update(newValuesDictionary)
     
     def hasId(self):
-        return self.params['id'] is not None
+        return self.id is not None
     
-    def create(self):
+    def addId(self, id):
+        self.id = id
+    
+    def create(self, createParams):
         if(self.hasKey()):
-            self.addOrUpdateParams({"api_key": self.api_key})
-            passParams = removeNonesDictionary(self.params)
-            request = rq.post(self.url + self.path, data = passParams)
-            response = request.json()
-            self.addOrUpdateParams(response)
+            passUrl = self.url + self.path + ".json?api_key=" + self.api_key
+            request = rq.post(passUrl, json = createParams)
+            print(request.status_code)
+            self.addOrUpdateParams(request.json())
+            self.id = self.params['id']
         else:
             print("No API Key provided.")
 
-    def retrive(self):
+    def retrieve(self):
         if(self.hasId() & self.hasKey()):
+            self.addOrUpdateParams({"id": str(self.id)})
             self.addOrUpdateParams({"api_key": self.api_key})
             passParams = removeNonesDictionary(self.params)
             request = rq.get(self.url + self.path, data = passParams)
@@ -93,13 +98,13 @@ class pipelineDealsObject(pipelineDeals):
         else:
             print("No API Key provided.")
         
-    def update(self):
+    def update(self, updateParams):
         if(self.hasId() & self.hasKey()):
-            self.addOrUpdateParams({"api_key": self.api_key})
-            passParams = removeNonesDictionary(self.params)
-            request = rq.put(self.url + self.path, data = passParams)
-            response = request.json()
-            self.addOrUpdateParams(response)
+            passUrl = self.url + self.path + "/" + str(self.id) + ".json?api_key=" + self.api_key
+            passHeaders = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+            request = rq.put(passUrl, json = updateParams, headers = passHeaders)
+            print(request.status_code)
+            self.addOrUpdateParams(request.json())
         elif not (self.hasId()):
             print("No id provided.")
         else:
@@ -107,10 +112,9 @@ class pipelineDealsObject(pipelineDeals):
 
     def delete(self):
         if(self.hasId() & self.hasKey()):
-            self.addOrUpdateParams({"api_key": self.api_key})
-            passParams = removeNonesDictionary(self.params)
-            request = rq.delete(self.url + self.path, data = passParams)
-            response = request.json()
+            passUrl = self.url + self.path + "/" + str(self.id) + ".json?api_key=" + self.api_key
+            request = rq.delete(passUrl)
+            print(request.status_code)
             return response
         elif not (self.hasId()):
             print("No id provided.")
