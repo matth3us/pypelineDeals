@@ -77,7 +77,7 @@ class pipelineDealsObject(pipelineDeals):
     
     def create(self, createParams):
         if(self.hasKey()):
-            passUrl = self.url + self.path + ".json?api_key=" + self.api_key
+            passUrl = self.url + self.path + ".json?api_key=" + self.api_key + '&check_for_duplicates=true'
             request = rq.post(passUrl, json = createParams)
             print(request.status_code)
             self.addOrUpdateParams(request.json())
