@@ -40,7 +40,7 @@ Remember to always store safely your api keys!
 
 After that, you must set the type of object list you want to retrieve and actually retrieve it. If, for instance, you want to retrieve all your companies, you must run the following code:
 
-```
+```python
 object_list.setTypeListCompanies()
 object_list.retriveList()
 ```
